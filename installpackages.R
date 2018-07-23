@@ -4,13 +4,14 @@ install.packages("dplyr")
 install.packages("tidyr")
 install.packages("tibble")
 
+install.packages("vegan")
+
 source('http://bioconductor.org/biocLite.R')
 biocLite('phyloseq')
 
 
 
 
-install.packages("vegan")
 install.packages("ggpubr")
 install.packages("raster")
 install.packages("GGally")
