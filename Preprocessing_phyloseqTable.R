@@ -73,7 +73,6 @@ save(PHYLOSEQ_TABLE_count, file="PHYLOSEQ_TABLE_Count.RData")
 
 # transform sample counts to relative abundance
 PHYLOSEQ_TABLE = transform_sample_counts(PHYLOSEQ_TABLE_count, function(x)100*x/sum(x))
-otu_table(PHYLOSEQ_TABLE)
 PHYLOSEQ_TABLE
 save(PHYLOSEQ_TABLE, file="PHYLOSEQ_TABLE.RData")
 
