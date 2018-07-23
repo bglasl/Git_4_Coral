@@ -9,7 +9,8 @@ install.packages("vegan")
 source('http://bioconductor.org/biocLite.R')
 biocLite('phyloseq')
 
-
+source('http://bioconductor.org/biocLite.R')
+biocLite('microbiome')
 
 
 install.packages("ggpubr")
