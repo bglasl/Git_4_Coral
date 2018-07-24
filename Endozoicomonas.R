@@ -119,9 +119,26 @@ ORDCCA # Genotype explains 27.23% of observed variability
 library(vegan)
 anova.cca(ORDCCA,by="term", permutations = 10000) # Genotype also highly sign p=0.000999 ***
 
+p0 = plot_ordination(Endo_Control_PHY_rel, ORDCCA, color="Genotype")+
+  scale_color_brewer(palette = "Paired")+
+  theme_classic(base_size = 16, base_family = "Helvetica")+
+  geom_hline(yintercept=c(0,0), linetype="dotted")+
+  geom_vline(xintercept=c(0,0), linetype="dotted")+
+  geom_point(size=3)
+p0
 
+postscript(file = "CCAplot_EndoGenotype.eps", width =6, height = 5)
+print(p0)
+dev.off()
+
+pdf('CCAplot_EndoGenotype.pdf', width=6, height=5)
+print(p0)
+graphics.off()
 
 #### Figure 3a - Endo Tree ####
+Endo_Control_PHY_rel = transform_sample_counts(PHYLOSEQ_TABLE_control_count, function(x)100*x/sum(x))
+head(sample_data(Endo_Control_PHY_rel))
+
 Endo_Control_PHY_rel<-subset_taxa(PHYLOSEQ_TABLE_control, Genus=="D_5__Endozoicomonas")
 test<-prune_taxa(names(sort(taxa_sums(Endo_Control_PHY_rel), TRUE))[1:12], Endo_Control_PHY_rel)
 tax_table(test)
@@ -170,11 +187,8 @@ print(tree)
 graphics.off()
 
 
-#### Figure 3b - dbRDA ####
-Endo_Control_PHY<-subset_taxa(PHYLOSEQ_TABLE_control, Genus=="D_5__Endozoicomonas")
-Endo_Control_PHY #133 Endo ASV (incl Core)
-
-Endo_Control_PHY_rel = transform_sample_counts(Endo_Control_PHY, function(x)100*x/sum(x))
+#### dbRDA ####
+Endo_Control_PHY_rel = transform_sample_counts(PHYLOSEQ_TABLE_control_count, function(x)100*x/sum(x))
 head(sample_data(Endo_Control_PHY_rel))
 
 # transfrom metadata z-score
@@ -201,7 +215,7 @@ sample_data(Endo_Control_PHY_rel)
 
 # dbRDA
 ORDCCA<-ordinate(Endo_Control_PHY_rel,"CAP",formula = ~ Genotype+Treatment+PSYield.y+Chla.y+Zoox.y+Protein.y)
-ORDCCA # explains 47.52 % of observed variation
+ORDCCA # explains  32.346% of observed variation
 
 library(vegan)
 ANOVA<-anova.cca(ORDCCA, by="term", permutations = 10000) # 
@@ -209,7 +223,7 @@ ANOVA #sig
 capture.output(ANOVA,file="Endo_Genotype_RDA.doc")
 
 ORDCCA<-ordinate(Endo_Control_PHY_rel,"CAP",formula = ~ Genotype)
-ORDCCA
+ORDCCA # explains 26.368% of observed variation
 
 p0 = plot_ordination(Endo_Control_PHY_rel, ORDCCA, color="Genotype")+
   scale_color_brewer(palette = "Paired")+
