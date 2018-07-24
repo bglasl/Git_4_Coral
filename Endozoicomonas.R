@@ -2,12 +2,124 @@
 #### Endozoicomonas ####
 
 library(ggplot2)
-
-load(file="PHYLOSEQ_TABLE.RData")
 library(phyloseq)
 
+#load data
+load(file="PHYLOSEQ_TABLE.RData")
+load(file="PHYLOSEQ_TABLE_Count.RData")
+
+#remove field_control samples
 PHYLOSEQ_TABLE_control=subset_samples(PHYLOSEQ_TABLE, Treatment!="field_control")
 PHYLOSEQ_TABLE_control
+PHYLOSEQ_TABLE_control_count=subset_samples(PHYLOSEQ_TABLE_count, Treatment!="field_control")
+PHYLOSEQ_TABLE_control_count
+
+#only keep Endozoicmonas 
+Endo_Control_PHY_rel<-subset_taxa(PHYLOSEQ_TABLE_control, Genus=="D_5__Endozoicomonas")
+Endo_Control_PHY_rel
+Endo_Control_PHY_count<-subset_taxa(PHYLOSEQ_TABLE_control_count, Genus=="D_5__Endozoicomonas")
+Endo_Control_PHY_count
+
+#### frequency ####
+Endo_freq<-psmelt(Endo_Control_PHY_rel)
+head(Endo_freq)
+
+ANOVA<-aov(Abundance~Treatment*SamplingTimepoint, data=Endo_freq)
+summary(ANOVA)
+capture.output(summary(ANOVA), file="Endo_freq_TreatTime.doc")
+
+ANOVA<-aov(Abundance~Genotype, data=Endo_freq)
+summary(ANOVA)
+capture.output(summary(ANOVA), file="Endo_freq_Genotype.doc")
+
+ANOVA<-aov(Abundance~Treatment+Error(Genotype), data=Endo_freq)
+summary(ANOVA)
+capture.output(summary(ANOVA), file="Endo_freq_withinGenotype.doc")
+
+#### Alpha diversity ####
+Endo_Control_PHY_count #133ASVs
+
+plot<-plot_richness(Endo_Control_PHY_count, x="Treatment", measures=c("Shannon","Observed"))+
+  geom_boxplot()+
+  theme_classic()
+plot
+
+pdf('ALPHA_ENDO.pdf', width=6, height=6)
+print(plot)
+graphics.off()
+
+plot<-plot_richness(Endo_Control_PHY_count, x="Genotype", measures=c("Shannon","Observed"))+
+  geom_boxplot()+
+  theme_classic()
+plot
+
+pdf('ALPHA_ENDOGENOTYPE.pdf', width=6, height=6)
+print(plot)
+graphics.off()
+
+RICHNESS<-estimate_richness(Endo_Control_PHY_count, split=TRUE, measures=c("Shannon","Observed"))
+RICHNESS<-as.data.frame(RICHNESS)
+RICHNESS<-tibble::rownames_to_column(as.data.frame(RICHNESS), var="Sample_ID")
+Richness_table<-right_join(METADATA, RICHNESS, by="Sample_ID")
+
+# treatment nor SamplingTimepoint has no overall effect alpha diversity (Endozoicomonas)
+model1<-aov((Shannon)~SamplingTimepoint+Error(Treatment), data=Richness_table)
+summary(model1) #not significant
+TukeyHSD(model1)
+
+# Effect of Genotype on the Endozoicomoas diversity
+model1<-aov((Shannon)~Genotype, data=Richness_table)
+summary(model1) #p=0.0452 *  significant
+TukeyHSD(model1)
+
+# Treatment also not signficant when tested wihtin a genotype
+model2<-aov((Shannon)~Treatment*SamplingTimepoint+Error(Genotype), data=Richness_table)
+summary(model2)
+TukeyHSD(model2)
+
+# Richness
+# treatment nor SamplingTimepoint has no overall effect alpha diversity (Endozoicomonas)
+model1<-aov((Observed)~SamplingTimepoint+Error(Treatment), data=Richness_table)
+summary(model1) #not significant
+TukeyHSD(model1)
+
+# Effect of Genotype on the Endozoicomoas diversity
+model1<-aov((Observed)~Genotype, data=Richness_table)
+summary(model1) #sign p=1.14e-08 ***
+TukeyHSD(model1)
+
+# Treatment & SamplingTimepoint signficant when tested wihtin a genotype
+model2<-aov((Observed)~Treatment*SamplingTimepoint+Error(Genotype), data=Richness_table)
+summary(model2) #Treatment & SamplingTimepoint  significantly affect Richness within a genotype (p=0.02531 *  & p=0.00942 **, respectively)
+
+plot_richness(CORE_count, x="Treatment", measures=c("Observed"))+
+  geom_boxplot()+
+  facet_grid(.~Genotype)
+
+#### ADONIS ####
+# Adonis = permutational Multivariate Analysis of variance using distance matrices
+### using adonis2 ### - this is the way to go!
+df=as(sample_data(Endo_Control_PHY_rel), 'data.frame')
+d=phyloseq::distance(Endo_Control_PHY_rel,'bray')
+
+ADONIS<-adonis(d~Genotype, data=df, permutations = 10000, method = "bray")
+ADONIS #sign -> sign - endozoicomonas community varies significanlty between coral host genotypes
+capture.output(ADONIS,file="Adonis_EndozoicomonasGenotypeControl.doc")
+
+perm<-how(nperm=10000)
+setBlocks(perm)<-with(df, Genotype)
+ADONIS2<-adonis2(d~Treatment, data=df, permutations = perm, method = "bray")
+ADONIS2 #not sign -> no shift in the microbial community between treatments within a genotype
+capture.output(ADONIS2,file="Adonis2_TimeeffectEndoGenotypeControl.doc")
+
+#### CCA ####
+ORDCCA<-ordinate(Endo_Control_PHY_rel,"CCA", formula = ~Genotype)
+plot_ordination(Endo_Control_PHY_rel, ORDCCA,color = "Genotype")
+ORDCCA # Genotype explains 27.23% of observed variability
+library(vegan)
+anova.cca(ORDCCA,by="term", permutations = 10000) # Genotype also highly sign p=0.000999 ***
+
+
 
 #### Figure 3a - Endo Tree ####
 Endo_Control_PHY_rel<-subset_taxa(PHYLOSEQ_TABLE_control, Genus=="D_5__Endozoicomonas")
@@ -662,21 +774,6 @@ HOSTANOSIM$signif #p=0.001
 HOSTANOSIM$statistic #R=0.3695626
 
 
-#### ADONIS & BETA DISPERSION ####
-# Adonis = permutational Multivariate Analysis of variance using distance matrices
-### using adonis2 ### - this is the way to go!
-df=as(sample_data(PHYLOSEQ_TABLE_control), 'data.frame')
-d=phyloseq::distance(PHYLOSEQ_TABLE_control,'bray')
-
-ADONIS<-adonis(d~Genotype, data=df, permutations = 10000, method = "bray")
-ADONIS #sign -> sign - endozoicomonas community varies significanlty between coral host genotypes
-capture.output(ADONIS,file="Adonis_EndozoicomonasGenotypeControl.doc")
-
-perm<-how(nperm=10000)
-setBlocks(perm)<-with(df, Genotype)
-ADONIS2<-adonis2(d~Treatment, data=df, permutations = perm, method = "bray")
-ADONIS2 #not sign -> no shift in the microbial community between treatments within a genotype
-capture.output(ADONIS2,file="Adonis2_TimeeffectEndoGenotypeControl.doc")
 
 #Mantel test ####
 # transfrom metadata z-score
