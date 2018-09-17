@@ -95,17 +95,17 @@ all4$variable<-factor(all4$variable, levels=c("control", "acute stress", "cumula
 
 
 p<-ggplot(all4, aes(x=Family, y=(MEAN), color=Genus)) + geom_point(size=6) + 
-  facet_wrap(~variable , ncol = 1)+
+  facet_grid(~variable)+
   scale_color_brewer(palette = "Spectral")+
   theme_bw(base_size = 16, base_family = "Helvetica")+
-  theme(axis.text.x = element_text(angle = -90, hjust = 0, vjust=0.5))+
+  coord_flip()+
   ylab("mean rel.abundance [%]")
 p
 
-pdf('IndVal_Treatment_TAXONOMY.pdf', width=8, height=10)
+pdf('IndVal_Treatment_TAXONOMY.pdf', width=10, height=8)
 print(p)
 graphics.off()
 
-postscript(file = "IndVal_Treatment_TAXONOMY.eps", width =8, height = 10)
+postscript(file = "IndVal_Treatment_TAXONOMY.eps", width =12, height = 6)
 print(p)
 dev.off()
