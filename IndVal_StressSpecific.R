@@ -46,8 +46,8 @@ head(summary.multipatt(INDVAL_Origin_GC, alpha = 0.05, indvalcomp=TRUE))
 IndValdf<-data.frame(INDVAL_Origin_GC$sign)
 IndValdf<-rownames_to_column(IndValdf, var="ASV_ID")
 IndValdf<-IndValdf %>% filter(p.value<=0.05) %>% dplyr:: rename(control=s.control) %>% 
-  dplyr:: rename(stress_2100=s.stress_2100)%>%
-  dplyr:: rename(stress_ambient=s.stress_ambient)
+  dplyr:: rename(`cumulative stress`=s.stress_2100)%>%
+  dplyr:: rename(`acute stress`=s.stress_ambient)
 
 IndValdf<-IndValdf%>% dplyr::select(-index,-p.value,-stat)
 
@@ -91,9 +91,8 @@ all3<-all1 %>% group_by(variable,ASV_ID) %>% summarise(MEAN=mean(Abundance))
 all3
 all4<-inner_join(TAXA,all3, by=c("ASV_ID"))
 all4
-all4a<-all3 %>% filter(MEAN>0)
-all4a<-inner_join(TAXA,all4a, by=c("ASV_ID"))
-write.csv(all4a, "Temp_alluvial.csv")
+all4$variable<-factor(all4$variable, levels=c("control", "acute stress", "cumulative stress"))
+
 
 p<-ggplot(all4, aes(x=Family, y=(MEAN), color=Genus)) + geom_point(size=6) + 
   facet_wrap(~variable , ncol = 1)+
