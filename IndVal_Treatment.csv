@@ -1,0 +1,37 @@
+
+ Multilevel pattern analysis
+ ---------------------------
+
+ Association function: IndVal.g
+ Significance level (alpha): 0.05
+
+ Total number of species: 2770
+ Selected number of species: 13 
+ Number of species associated to 1 group: 13 
+ Number of species associated to 2 groups: 0 
+
+ List of species associated to each combination: 
+
+ Group control  #sps.  4 
+                                      A      B  stat p.value  
+915bf7ca1f5f8a18e36dbde6615996de 0.9738 0.1818 0.421  0.0223 *
+8279878bd6bb9f40720e56725a6c3272 1.0000 0.1364 0.369  0.0279 *
+e898c3199eb064e598a2cf2cf71ce004 1.0000 0.1364 0.369  0.0284 *
+c698e34b0e4a752b6f0e1b37b1f03c63 0.9810 0.1364 0.366  0.0488 *
+
+ Group stress_2100  #sps.  4 
+                                      A      B  stat p.value   
+04ae885b9ae1446cc300f362969b7802 1.0000 0.2692 0.519  0.0017 **
+b2353d08f7956a594b453a69bb9545b0 0.7695 0.3462 0.516  0.0353 * 
+07c4322d5a74b4208828a08d60bae82c 1.0000 0.1538 0.392  0.0356 * 
+8883af4821fe066314b86728ce01c2c2 1.0000 0.1538 0.392  0.0295 * 
+
+ Group stress_ambient  #sps.  5 
+                                      A      B  stat p.value  
+98d7e2d4d9eefdf3350bf4307f0f4324 0.6208 0.3913 0.493  0.0298 *
+18416bd5c0b89cd47be6536828e45369 0.8846 0.2609 0.480  0.0230 *
+62b73ecd1120c0ea68757923a6cf9879 0.8845 0.2609 0.480  0.0262 *
+536de716940bb0489e16fd4060cb0612 0.7865 0.2174 0.413  0.0401 *
+0f56248ab5b9c1b55c57d7b625f4b738 0.9596 0.1739 0.409  0.0365 *
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
