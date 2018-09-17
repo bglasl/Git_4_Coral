@@ -95,18 +95,18 @@ all4a<-all3 %>% filter(MEAN>0)
 all4a<-inner_join(TAXA,all4a, by=c("ASV_ID"))
 write.csv(all4a, "Temp_alluvial.csv")
 
-p<-ggplot(all4, aes(x=Order, y=(MEAN), color=Genus)) + geom_point(size=6) + 
+p<-ggplot(all4, aes(x=Family, y=(MEAN), color=Genus)) + geom_point(size=6) + 
   facet_wrap(~variable , ncol = 1)+
   scale_color_brewer(palette = "Spectral")+
   theme_bw(base_size = 16, base_family = "Helvetica")+
   theme(axis.text.x = element_text(angle = -90, hjust = 0, vjust=0.5))+
-  ylab("rel.abundance")
+  ylab("mean rel.abundance [%]")
 p
 
 pdf('IndVal_Treatment_TAXONOMY.pdf', width=8, height=10)
 print(p)
 graphics.off()
 
-postscript(file = "IndVal_Temp_seawater_TAXONOMY.eps", width =8, height = 12)
+postscript(file = "IndVal_Treatment_TAXONOMY.eps", width =8, height = 10)
 print(p)
 dev.off()
