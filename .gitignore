@@ -3,3 +3,4 @@ packrat/lib*/
 *.pdf
 *.doc
 *.eps
+!Grouping_zeropointfive_threshold.csv

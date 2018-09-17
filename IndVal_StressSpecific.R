@@ -25,25 +25,21 @@ OTU_table_df = as.data.frame(OTU_table)
 OTU_table_df<-rownames_to_column(OTU_table_df, var="Sample_ID")
 
 # join datasets
-TEM<-read.csv("Grouping_zeropointfive_threshold.csv", header = TRUE, sep = ",", dec=".", strip.white=TRUE)
-METAnew<-full_join(TEM,METADATA,by="Sampling_Date")
-METAnew
 library(dplyr)
 library(tidyr)
-OTU_table_IndVal<-right_join(METAnew, OTU_table_df, by="Sample_ID")
+OTU_table_IndVal<-right_join(METADATA, OTU_table_df, by="Sample_ID")
 
 #indval
-
 library(labdsv)
 library(MASS)
 library(vegan)
 library(cluster)
 library(indicspecies)
 library(permute)
-(INDVAL_OTUs_species_GC=(as.data.frame(OTU_table_IndVal[,15:5003])))
+(INDVAL_OTUs_species_GC=(as.data.frame(OTU_table_IndVal[,14:2783])))
 
 #Cluster 
-(INDVAL_Groups_Origin_GC=(as.character(OTU_table_IndVal$avg_temp)))
+(INDVAL_Groups_Origin_GC=(as.character(OTU_table_IndVal$Treatment)))
 INDVAL_Origin_GC=multipatt(INDVAL_OTUs_species_GC, INDVAL_Groups_Origin_GC, func="IndVal.g", duleg=TRUE, control=how(nperm=1000))
 summary(INDVAL_Origin_GC, indvalcomp=TRUE)
 head(summary.multipatt(INDVAL_Origin_GC, alpha = 0.01, indvalcomp=TRUE)) #At=0.80, Bt=0.80 
