@@ -5,33 +5,52 @@
  Association function: IndVal.g
  Significance level (alpha): 0.05
 
- Total number of species: 2770
- Selected number of species: 13 
- Number of species associated to 1 group: 13 
- Number of species associated to 2 groups: 0 
+ Total number of species: 4624
+ Selected number of species: 26 
+ Number of species associated to 1 group: 20 
+ Number of species associated to 2 groups: 6 
 
  List of species associated to each combination: 
 
- Group control  #sps.  4 
+ Group control  #sps.  3 
                                       A      B  stat p.value  
-915bf7ca1f5f8a18e36dbde6615996de 0.9738 0.1818 0.421  0.0223 *
-8279878bd6bb9f40720e56725a6c3272 1.0000 0.1364 0.369  0.0279 *
-e898c3199eb064e598a2cf2cf71ce004 1.0000 0.1364 0.369  0.0284 *
-c698e34b0e4a752b6f0e1b37b1f03c63 0.9810 0.1364 0.366  0.0488 *
+915bf7ca1f5f8a18e36dbde6615996de 0.9678 0.1818 0.419  0.0214 *
+8279878bd6bb9f40720e56725a6c3272 1.0000 0.1364 0.369  0.0272 *
+e898c3199eb064e598a2cf2cf71ce004 1.0000 0.1364 0.369  0.0295 *
 
- Group stress_2100  #sps.  4 
+ Group stress_2100  #sps.  6 
+                                      A      B  stat p.value    
+caedc49ae2f639b7a717458f22a877d4 1.0000 0.3077 0.555  0.0002 ***
+04ae885b9ae1446cc300f362969b7802 1.0000 0.2692 0.519  0.0011 ** 
+0dbf38224c14854ac30b49046e8aafca 1.0000 0.2692 0.519  0.0011 ** 
+07c4322d5a74b4208828a08d60bae82c 1.0000 0.1538 0.392  0.0289 *  
+09f1bf601b291264e1082f14340f07fd 1.0000 0.1538 0.392  0.0340 *  
+8883af4821fe066314b86728ce01c2c2 1.0000 0.1538 0.392  0.0340 *  
+
+ Group stress_ambient  #sps.  11 
                                       A      B  stat p.value   
-04ae885b9ae1446cc300f362969b7802 1.0000 0.2692 0.519  0.0017 **
-b2353d08f7956a594b453a69bb9545b0 0.7695 0.3462 0.516  0.0353 * 
-07c4322d5a74b4208828a08d60bae82c 1.0000 0.1538 0.392  0.0356 * 
-8883af4821fe066314b86728ce01c2c2 1.0000 0.1538 0.392  0.0295 * 
+ef9fd241c45fb94174dcaf769dafc1bb 1.0000 0.2174 0.466  0.0052 **
+536de716940bb0489e16fd4060cb0612 0.8976 0.2174 0.442  0.0185 * 
+07cbe0c6eb1e9f6bdc20bbb5f630a1b5 0.8835 0.2174 0.438  0.0291 * 
+79ab146fd43817b096eefeacc7c17974 1.0000 0.1739 0.417  0.0172 * 
+0f56248ab5b9c1b55c57d7b625f4b738 0.9604 0.1739 0.409  0.0329 * 
+10a82f97ded9cb7f1c53d5a640c8cc57 0.9472 0.1739 0.406  0.0298 * 
+abb3e0d67849288ca0ee032f2a362cb4 0.9348 0.1739 0.403  0.0427 * 
+c5f05b5e521f3dd7ba920c053d1fd8bf 0.8777 0.1739 0.391  0.0458 * 
+c40fc572929282c726cedc1c52ac8081 0.8726 0.1739 0.390  0.0447 * 
+e2084ef86d740eab9541229ee9d710f3 0.8701 0.1739 0.389  0.0354 * 
+95edd573413cca879e2fdaa5691e61a0 0.8271 0.1739 0.379  0.0436 * 
 
- Group stress_ambient  #sps.  5 
+ Group control+stress_ambient  #sps.  4 
+                                      A      B  stat p.value   
+f01da61ef615a0968fa4116ad0f6a4ac 0.9246 0.4444 0.641  0.0223 * 
+e2d07801858b8783b72867d25cc6affc 0.8537 0.4222 0.600  0.0146 * 
+98d7e2d4d9eefdf3350bf4307f0f4324 1.0000 0.3111 0.558  0.0042 **
+18416bd5c0b89cd47be6536828e45369 1.0000 0.2000 0.447  0.0431 * 
+
+ Group stress_2100+stress_ambient  #sps.  2 
                                       A      B  stat p.value  
-98d7e2d4d9eefdf3350bf4307f0f4324 0.6208 0.3913 0.493  0.0298 *
-18416bd5c0b89cd47be6536828e45369 0.8846 0.2609 0.480  0.0230 *
-62b73ecd1120c0ea68757923a6cf9879 0.8845 0.2609 0.480  0.0262 *
-536de716940bb0489e16fd4060cb0612 0.7865 0.2174 0.413  0.0401 *
-0f56248ab5b9c1b55c57d7b625f4b738 0.9596 0.1739 0.409  0.0365 *
+3ff335d3936cb2cd6ee366ddf34e49d1 0.9301 0.3878 0.601  0.0408 *
+ffd7161776070abe4c1c2add0317f58d 1.0000 0.2245 0.474  0.0426 *
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 

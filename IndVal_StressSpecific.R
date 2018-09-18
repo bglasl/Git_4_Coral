@@ -1,5 +1,5 @@
 ##### Figure 6 ####
-# IndVal others
+# IndVal 
 
 load(file="PHYLOSEQ_TABLE.RData")
 library(phyloseq)
@@ -12,8 +12,7 @@ library(microbiome)
 
 PHYLOSEQ_TABLE=subset_samples(PHYLOSEQ_TABLE, Treatment!="field_control")
 PHYLOSEQ_TABLE
-Other_PHY<-subset_taxa(PHYLOSEQ_TABLE, Genus!="D_5__Endozoicomonas")
-Other_PHY<-subset_samples(Other_PHY, SamplingTimepoint!="t1")
+Other_PHY<-subset_samples(PHYLOSEQ_TABLE, SamplingTimepoint!="t1") 
 Other_PHY_rel = transform_sample_counts(Other_PHY, function(x)100*x/sum(x))
 
 METADATA<-as(sample_data(Other_PHY_rel), "data.frame")
@@ -36,11 +35,11 @@ library(vegan)
 library(cluster)
 library(indicspecies)
 library(permute)
-(INDVAL_OTUs_species_GC=(as.data.frame(OTU_table_IndVal[,14:2783])))
+(INDVAL_OTUs_species_GC=(as.data.frame(OTU_table_IndVal[,14:4637])))
 
 #Cluster 
 (INDVAL_Groups_Origin_GC=(as.character(OTU_table_IndVal$Treatment)))
-INDVAL_Origin_GC=multipatt(INDVAL_OTUs_species_GC, INDVAL_Groups_Origin_GC, func="IndVal.g", duleg=TRUE, control=how(nperm=10000))
+INDVAL_Origin_GC=multipatt(INDVAL_OTUs_species_GC, INDVAL_Groups_Origin_GC, func="IndVal.g", duleg=FALSE, control=how(nperm=10000))
 summary(INDVAL_Origin_GC, indvalcomp=TRUE)
 head(summary.multipatt(INDVAL_Origin_GC, alpha = 0.05, indvalcomp=TRUE))
 IndValdf<-data.frame(INDVAL_Origin_GC$sign)
@@ -96,7 +95,6 @@ all4$variable<-factor(all4$variable, levels=c("control", "acute stress", "cumula
 
 p<-ggplot(all4, aes(x=Family, y=(MEAN), color=Genus)) + geom_point(size=6) + 
   facet_grid(~variable)+
-  scale_color_brewer(palette = "Spectral")+
   theme_bw(base_size = 16, base_family = "Helvetica")+
   coord_flip()+
   ylab("mean rel.abundance [%]")
