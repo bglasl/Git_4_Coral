@@ -135,7 +135,7 @@ pdf('CCAplot_EndoGenotype.pdf', width=6, height=5)
 print(p0)
 graphics.off()
 
-#### Figure 3a - Endo Tree ####
+#### Endo Tree ####
 Endo_Control_PHY_rel = transform_sample_counts(PHYLOSEQ_TABLE_control_count, function(x)100*x/sum(x))
 head(sample_data(Endo_Control_PHY_rel))
 
@@ -143,9 +143,30 @@ Endo_Control_PHY_rel<-subset_taxa(PHYLOSEQ_TABLE_control, Genus=="D_5__Endozoico
 test<-prune_taxa(names(sort(taxa_sums(Endo_Control_PHY_rel), TRUE))[1:12], Endo_Control_PHY_rel)
 tax_table(test)
 test<-subset_taxa(test, Feature_ID!="52236970d9a33a65914b7ee46274639d")
+stressASV<-subset_taxa(Endo_Control_PHY_rel, Feature_ID=="ffd7161776070abe4c1c2add0317f58d"|
+                         Feature_ID=="7644ba5e228f6c7e4cab13c973eebd3c"|
+                         Feature_ID=="e09c9c87223e713ca3e185b78a49e825"|
+                         Feature_ID=="1ca72d4dd6b29e683338f1ba895b5bc1"|
+                         Feature_ID=="3964b537a5b584afc40192b91d5283b3"|
+                         Feature_ID=="61a0606c0017caac996f520569863b69"|
+                         Feature_ID=="b772fe52a7ceca98c424d9c16da7c826"|
+                         Feature_ID=="fd123868368f46e30f2b2f7a2fa45861"|
+                         Feature_ID=="52236970d9a33a65914b7ee46274639d"|
+                         Feature_ID=="c0e6c66cfd0673747e59936d6c050407"|
+                         Feature_ID=="8024ea926f3fdd804332b645f98fc7f4"|
+                         Feature_ID=="5fb983e92b5f365c10ce1f7d494eb7e1"|
+                         Feature_ID=="561f809577daa2932b264f72e2ed49fe")
 
-test = transform_sample_counts(test, function(x)100*x/sum(x))
 
+
+
+
+stressASV
+newtree<-merge_phyloseq(test, stressASV)
+newtree
+
+test = transform_sample_counts(stressASV, function(x)100*x/sum(x))
+test
 variable1 = as.character(get_variable(test, "Treatment"))
 variable2 = as.character(get_variable(test, "Genotype"))
 sample_data(test)$Tre_Gen <- mapply(paste0, variable1, variable2, 
@@ -164,7 +185,7 @@ mergedGP = transform_sample_counts(mergedGP, function(x)100*x/sum(x))
 library(ggtree)
 tree<-plot_tree(mergedGP, ladderize = "left", label.tips="taxa_names", color = "Genotype", size="abundance",  nodelabf = nodeplotblank, 
                 base.spacing = 0.04)+
-  scale_color_brewer(palette = "Paired")+
+  scale_color_brewer(palette = "Paired")
   theme_tree2()+
   theme(legend.position = "right")+
   scale_size_area(max_size = 8)
