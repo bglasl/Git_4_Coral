@@ -224,22 +224,13 @@ bray.mantel<-mantel(bray.dist.otu, bray.dist.host, permutations = 10000, method=
 
 bray.mantel
 
-# db_RDA
-ORDCCA<-ordinate(PHYLOSEQ_TABLE_control,"CAP",formula = ~Genotype+Treatment+ Zoox.y+Protein.y+Chla.y+PSYield.y)
-ORDCCA # explains 30.101 % of observed variation
+# dbRDA ####
+ORDCCA<-ordinate(PHYLOSEQ_TABLE_control,"CAP",formula = ~Genotype+Treatment+ Zoox+Protein+Chla+PSYield)
+ORDCCA # explains 32 % of observed variation
 
 library(vegan)
-ANOVA<-anova.cca(ORDCCA, by="term", permutations = 10000) # 
-ANOVA #sig
-capture.output(ANOVA,file="Endo_Genotype_RDA.doc")
+ANOVA<-anova.cca(ORDCCA, by="term", permutations = 1000) # 
+ANOVA # Genotype sig
+capture.output(ANOVA,file="ANOVA_CCA_GenotypeHostHealth.doc")
 
-p0 = plot_ordination(Endo_Control_PHY_rel, ORDCCA, color="Genotype")+
-  scale_color_brewer(palette = "Paired")+
-  theme_classic(base_size = 16, base_family = "Helvetica")+
-  geom_hline(yintercept=c(0,0), linetype="dotted")+
-  geom_vline(xintercept=c(0,0), linetype="dotted")+
-  geom_point(size=3)
-xlab("db RDA1 [23.5%]")+
-  ylab("db RDA2 [4.3%]")
-p0
 
