@@ -235,11 +235,11 @@ sample_data(Endo_Control_PHY_rel)
 
 
 # dbRDA
-ORDCCA<-ordinate(Endo_Control_PHY_rel,"CAP",formula = ~ Genotype+Treatment+PSYield.y+Chla.y+Zoox.y+Protein.y)
+ORDCCA<-ordinate(Endo_Control_PHY_rel,"CAP",formula = ~ Genotype+Treatment+PSYield+Chla+Zoox+Protein)
 ORDCCA # explains  32.346% of observed variation
 
 library(vegan)
-ANOVA<-anova.cca(ORDCCA, by="term", permutations = 10000) # 
+ANOVA<-anova.cca(ORDCCA, by="term", permutations = 1000) # 
 ANOVA #sig
 capture.output(ANOVA,file="Endo_Genotype_RDA.doc")
 
@@ -252,8 +252,8 @@ p0 = plot_ordination(Endo_Control_PHY_rel, ORDCCA, color="Genotype")+
   geom_hline(yintercept=c(0,0), linetype="dotted")+
   geom_vline(xintercept=c(0,0), linetype="dotted")+
   geom_point(size=3)+
-  xlab("db RDA1 [23.5%]")+
-  ylab("db RDA2 [4.3%]")
+  xlab("db-RDA1 [8.8%]")+
+  ylab("db-RDA2 [6.0%]")
 p0
 
 postscript(file = "RDAplot_EndoGenotype.eps", width =6, height = 5)
