@@ -24,15 +24,24 @@ Endo_Control_PHY_count
 Endo_freq<-psmelt(Endo_Control_PHY_rel)
 head(Endo_freq)
 
-ANOVA<-aov(Abundance~Treatment*SamplingTimepoint, data=Endo_freq)
+library(dplyr)
+Endo_freq_summary<-Endo_freq %>%  dplyr::group_by(Sample) %>% summarise(SUM=sum(Abundance))
+head(Endo_freq_summary)
+
+Endo_meta<-Endo_freq %>% select(Sample, Treatment, SamplingTimepoint,Genotype) %>% dplyr::distinct()
+Endo_freq_summary<- dplyr::full_join(Endo_freq_summary, Endo_meta, by="Sample")
+head(Endo_freq_summary)
+
+
+ANOVA<-aov(asin(sqrt(SUM/100))~Treatment*SamplingTimepoint, data=Endo_freq_summary)
 summary(ANOVA)
 capture.output(summary(ANOVA), file="Endo_freq_TreatTime.doc")
 
-ANOVA<-aov(Abundance~Genotype, data=Endo_freq)
+ANOVA<-aov(asin(sqrt(SUM/100))~Genotype, data=Endo_freq_summary)
 summary(ANOVA)
 capture.output(summary(ANOVA), file="Endo_freq_Genotype.doc")
 
-ANOVA<-aov(Abundance~Treatment+Error(Genotype), data=Endo_freq)
+ANOVA<-aov(asin(sqrt(SUM/100))~Treatment+Error(Genotype), data=Endo_freq_summary)
 summary(ANOVA)
 capture.output(summary(ANOVA), file="Endo_freq_withinGenotype.doc")
 
