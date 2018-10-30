@@ -46,7 +46,7 @@ Core<-Piecharttable %>%
   tidyr::gather("Sample","Abundance", 2:97) %>% 
   group_by(Sample) %>% 
   summarise(MEAN_Endo=sum(Abundance)) %>% 
-  summarise(MEAN_Endo_total=mean(MEAN_Endo))
+  summarise(MEAN_Endo_total=mean(MEAN_Endo),SD=sd(MEAN_Endo))
 
 #mean Endo abundance (minus core) = 28.98157
 #mean Core = 18.91282
