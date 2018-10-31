@@ -1,4 +1,3 @@
-#######################
 #### Endozoicomonas ####
 
 library(ggplot2)

@@ -56,12 +56,11 @@ plot<-ggplot(longTempMEAN, aes(x=SamplingTimepoint, y=`MEAN`, colour=environment
   xlab("days")
 
 plot  
-pdf('Fig_1b.pdf', width=10, height=8)
+pdf('Fig_2a.pdf', width=10, height=8)
 print(plot)
 graphics.off()
 
-
-postscript(file = "Fig_1b.eps", width =10, height = 8)
+postscript(file = "Fig_2a.eps", width =10, height = 8)
 print(plot)
 dev.off()
 
@@ -115,12 +114,12 @@ plot<-ggplot(longTempMEAN, aes(x=Genotype, y=`MEAN`, colour=environmental_data))
   ylab("z-scores")+
   xlab("genotype")
 plot  
-pdf('Fig_1c.pdf', width=10, height=8)
+pdf('Fig_2b.pdf', width=10, height=8)
 print(plot)
 graphics.off()
 
 
-postscript(file = "Fig_1c.eps", width =10, height = 8)
+postscript(file = "Fig_2b.eps", width =10, height = 8)
 print(plot)
 dev.off()
 

@@ -1,5 +1,5 @@
 ##### Figure 6 ####
-# IndVal 
+# IndVal - Indicator Value analysis
 
 load(file="PHYLOSEQ_TABLE.RData")
 library(phyloseq)
